@@ -1,0 +1,32 @@
+version: 2
+
+sources:
+  - name: prod_src_raw
+    database: ECOMDB
+    schema: RAW
+
+    tables:
+      - name: SUPERSTORE
+        description: "Raw Superstore sales dataset."
+
+        columns:
+          - name: ROW_ID
+            tests:
+              - unique
+              - not_null
+
+          - name: ORDER_ID
+            tests:
+              - not_null
+
+          - name: PRODUCT_ID
+            tests:
+              - not_null
+
+          - name: SALES
+            tests:
+              - not_null
+
+          - name: QUANTITY
+            tests:
+              - not_null

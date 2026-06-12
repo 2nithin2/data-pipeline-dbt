@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: raw_src
+    description: 'raw superstore sales dataset loaded from source systems.'
+    database: ECOMDB
+    schema: RAW  # Points directly to your RAW schema in Snowflake
+    tables:
+      - name: superstore
