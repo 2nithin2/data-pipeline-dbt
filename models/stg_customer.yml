@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: stg_customer
+    description: One row per customer after deduplication.
+
+    columns:
+      - name: CUSTOMER_ID
+        description: Unique customer identifier.
+
+      - name: CUSTOMER_NAME
+        description: Standardized customer name.
+
+      - name: CUSTOMER_BK
+        description: MD5-based business key generated from CUSTOMER_ID.
+
+      - name: FULL_ADDRESS
+        description: Concatenated customer address using city, state, and country.
