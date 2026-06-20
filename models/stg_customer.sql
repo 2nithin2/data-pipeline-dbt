@@ -18,11 +18,8 @@ WITH customer_source AS (
         UPPER(TRIM(REGION)) AS REGION
 
     FROM {{ source('raw_src', 'superstore') }}
-
 ),
-
 deduplicated_customers AS (
-
     SELECT
         *,
 
@@ -32,11 +29,8 @@ deduplicated_customers AS (
         ) AS RN
 
     FROM customer_source
-
 )
-
 SELECT
-
     CUSTOMER_ID,
     CUSTOMER_NAME,
     SEGMENT,
@@ -44,7 +38,6 @@ SELECT
     STATE,
     COUNTRY,
     REGION,
-
     ARRAY_TO_STRING(
         ARRAY_CONSTRUCT_COMPACT(
             CITY,
@@ -62,8 +55,5 @@ SELECT
             '|'
         )
     ) AS CUSTOMER_BK
-
-
 FROM deduplicated_customers
-
 WHERE RN = 1

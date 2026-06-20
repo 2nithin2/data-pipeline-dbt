@@ -2,17 +2,67 @@ version: 2
 
 models:
   - name: stg_customer
-    description: One row per customer after deduplication.
-
+    description: >
+      Customer staging model built from the Superstore source table.
+      The model standardizes customer-related attributes, removes duplicate customer records,
+      creates a customer business key, and generates a readable full address.
+      The grain of this model is one row per customer.
     columns:
       - name: CUSTOMER_ID
-        description: Unique customer identifier.
+        description: >
+          Unique identifier for a customer. Used as the primary business identifier.
+        tests:
+          - not_null
+          - unique
 
       - name: CUSTOMER_NAME
-        description: Standardized customer name.
+        description: >
+          Standardized customer name associated with the customer identifier.
+        tests:
+          - not_null
 
-      - name: CUSTOMER_BK
-        description: MD5-based business key generated from CUSTOMER_ID.
+      - name: SEGMENT
+        description: >
+          Customer segment classification such as Consumer, Corporate, or Home Office.
+        tests:
+          - not_null
+
+      - name: CITY
+        description: >
+          Customer city location.
+        tests:
+          - not_null
+
+      - name: STATE
+        description: >
+          Customer state or province.
+        tests:
+          - not_null
+
+      - name: COUNTRY
+        description: >
+          Customer country.
+        tests:
+          - not_null
+
+      - name: REGION
+        description: >
+          Geographic sales region associated with the customer.
+        tests:
+          - not_null
 
       - name: FULL_ADDRESS
-        description: Concatenated customer address using city, state, and country.
+        description: >
+          Concatenated address string generated from CITY, STATE, and COUNTRY
+          using ARRAY_CONSTRUCT_COMPACT and ARRAY_TO_STRING.
+          Null address components are automatically excluded.
+        tests:
+          - not_null
+
+      - name: CUSTOMER_BK
+        description: >
+          Deterministic MD5 business key generated from CUSTOMER_ID.
+          Used for joining customer records across downstream models.
+        tests:
+          - not_null
+          - unique
